@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2026
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4_Initialization", "4_Initialization\4_Initialization.vcxproj", "{4F297D46-E603-48EA-96C9-1B70964CBEC7}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "4_Initialization", "Chapter4_Example_Initialization\4_Initialization.vcxproj", "{4F297D46-E603-48EA-96C9-1B70964CBEC7}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6_Box", "6_Box\6_Box.vcxproj", "{29591F34-0CA6-4D01-A64E-943948483188}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "6_Box", "Chapter6_Example_Box\6_Box.vcxproj", "{29591F34-0CA6-4D01-A64E-943948483188}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7_Shapes", "7_Shapes\7_Shapes.vcxproj", "{5B159C82-9CB9-4AB7-8228-04AF45D6DD09}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7_Shapes", "Chapter7_Example_Shapes\7_Shapes.vcxproj", "{5B159C82-9CB9-4AB7-8228-04AF45D6DD09}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7_LandAndWaves", "7_LandAndWaves\7_LandAndWaves.vcxproj", "{DD2B7A56-B3FA-48F6-900E-561C83972EF2}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "7_LandAndWaves", "Chapter7_Example_LandAndWaves\7_LandAndWaves.vcxproj", "{DD2B7A56-B3FA-48F6-900E-561C83972EF2}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1_S_19", "1_S_19\1_S_19.vcxproj", "{637CFF6D-019D-4E2F-ABBA-6C976281C617}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "1_S_19", "Chapter1_Exercise_19\1_S_19.vcxproj", "{637CFF6D-019D-4E2F-ABBA-6C976281C617}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2_S_18", "2_S_18\2_S_18.vcxproj", "{E9F2076D-0190-401E-AFD9-65E626DEE62C}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "2_S_18", "Chapter2_Exercise_18\2_S_18.vcxproj", "{E9F2076D-0190-401E-AFD9-65E626DEE62C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

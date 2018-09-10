@@ -20,10 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{637CFF6D-019D-4E2F-ABBA-6C976281C617}</ProjectGuid>
-    <RootNamespace>My1S19</RootNamespace>
+    <ProjectGuid>{5B159C82-9CB9-4AB7-8228-04AF45D6DD09}</ProjectGuid>
+    <RootNamespace>My7Shapes</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>1_Exercise_19</ProjectName>
+    <ProjectName>Chapter7_Example_Shapes</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -77,7 +77,6 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <FloatingPointModel>Fast</FloatingPointModel>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -117,7 +116,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="..\Common\D3DApp.cpp" />
+    <ClCompile Include="..\Common\D3DUtil.cpp" />
+    <ClCompile Include="..\Common\GameTimer.cpp" />
+    <ClCompile Include="..\Common\GeometryGenerator.cpp" />
+    <ClCompile Include="..\Common\MathHelper.cpp" />
+    <ClCompile Include="AppMain.cpp" />
+    <ClCompile Include="FrameResource.cpp" />
+    <ClCompile Include="Shapes.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\Common\D3DApp.h" />
+    <ClInclude Include="..\Common\D3DUtil.h" />
+    <ClInclude Include="..\Common\GameTimer.h" />
+    <ClInclude Include="..\Common\GeometryGenerator.h" />
+    <ClInclude Include="..\Common\MathHelper.h" />
+    <ClInclude Include="..\Common\UploadBuffer.h" />
+    <ClInclude Include="FrameResource.h" />
+    <ClInclude Include="Shapes.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

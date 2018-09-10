@@ -20,17 +20,17 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{4F297D46-E603-48EA-96C9-1B70964CBEC7}</ProjectGuid>
-    <RootNamespace>My4Initialization</RootNamespace>
+    <ProjectGuid>{DD2B7A56-B3FA-48F6-900E-561C83972EF2}</ProjectGuid>
+    <RootNamespace>My7LandAndWaves</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>4_Example_Initialization</ProjectName>
+    <ProjectName>Chapter7_Example_LandAndWaves</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
-    <CharacterSet>Unicode</CharacterSet>
+    <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
@@ -71,7 +71,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup />
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -79,7 +79,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
   </ItemDefinitionGroup>
-  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
@@ -119,15 +119,23 @@
     <ClCompile Include="..\Common\D3DApp.cpp" />
     <ClCompile Include="..\Common\D3DUtil.cpp" />
     <ClCompile Include="..\Common\GameTimer.cpp" />
+    <ClCompile Include="..\Common\GeometryGenerator.cpp" />
+    <ClCompile Include="..\Common\MathHelper.cpp" />
     <ClCompile Include="AppMain.cpp" />
-    <ClCompile Include="Initialization.cpp" />
+    <ClCompile Include="FrameResource.cpp" />
+    <ClCompile Include="LandAndWaves.cpp" />
+    <ClCompile Include="Waves.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Common\D3DApp.h" />
     <ClInclude Include="..\Common\D3DUtil.h" />
-    <ClInclude Include="..\Common\D3Dx12.h" />
     <ClInclude Include="..\Common\GameTimer.h" />
-    <ClInclude Include="Initialization.h" />
+    <ClInclude Include="..\Common\GeometryGenerator.h" />
+    <ClInclude Include="..\Common\MathHelper.h" />
+    <ClInclude Include="..\Common\UploadBuffer.h" />
+    <ClInclude Include="FrameResource.h" />
+    <ClInclude Include="LandAndWaves.h" />
+    <ClInclude Include="Waves.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
