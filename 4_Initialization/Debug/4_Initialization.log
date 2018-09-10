@@ -1,0 +1,8 @@
+﻿  D3DApp.cpp
+e:\project\d3d12\mydemo\common\d3dapp.cpp : warning C4335: Mac file format detected: please convert the source file to either DOS or UNIX format
+  AppStart.cpp
+e:\project\d3d12\mydemo\4_initialization\appstart.cpp : warning C4335: Mac file format detected: please convert the source file to either DOS or UNIX format
+  Initialization.cpp
+e:\project\d3d12\mydemo\4_initialization\initialization.cpp : warning C4335: Mac file format detected: please convert the source file to either DOS or UNIX format
+  Generating Code...
+  4_Initialization.vcxproj -> E:\Project\D3D12\MyDemo\Debug\4_Initialization.exe

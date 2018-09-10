@@ -1,0 +1,6 @@
+﻿E:\Tools\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(2_S_18.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
+  ArrayMatrix.cpp
+e:\project\github\direct12bookreadingnotes\2_s_18\arraymatrix.cpp(116): warning C4244: “=”: 从“double”转换到“float”，可能丢失数据
+  main.cpp
+  正在生成代码...
+  2_S_18.vcxproj -> E:\Project\GitHub\Direct12BookReadingNotes\x64\Debug\2_Exercise_18.exe
