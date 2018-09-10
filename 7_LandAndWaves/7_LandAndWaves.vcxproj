@@ -23,6 +23,7 @@
     <ProjectGuid>{DD2B7A56-B3FA-48F6-900E-561C83972EF2}</ProjectGuid>
     <RootNamespace>My7LandAndWaves</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>7_Example_LandAndWaves</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
