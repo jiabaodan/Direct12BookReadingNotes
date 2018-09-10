@@ -1,3 +1,0 @@
-﻿E:\Tools\VS2017\Common7\IDE\VC\VCTargets\Microsoft.CppBuild.targets(391,5): warning MSB8028: 中间目录(x64\Debug\)包含从另一个项目(1_S_19.vcxproj)共享的文件。   这会导致错误的清除和重新生成行为。
-  main.cpp
-  1_S_19.vcxproj -> E:\Project\GitHub\Direct12BookReadingNotes\x64\Debug\1_Exercise_19.exe
