@@ -1,6 +1,6 @@
 /*********************************************************************************
 *FileName:        d3dUtil.h
-*Author:          张尊庆
+*Author:          
 *Version:         1.0
 *Date:            2018/8/1
 *Description:     d3d 封装的一些常用接口
@@ -30,11 +30,74 @@
 #include "d3dx12.h"
 #include "DDSTextureLoader.h"
 #include <WindowsX.h>
-//#include "MathHelper.h"
+#include "MathHelper.h"
+
+extern const int gNumFrameResources;
+
+inline void d3dSetDebugName(IDXGIObject* obj, const char* name)
+{
+	if (obj)
+	{
+		obj->SetPrivateData(WKPDID_D3DDebugObjectName, lstrlenA(name), name);
+	}
+}
+inline void d3dSetDebugName(ID3D12Device* obj, const char* name)
+{
+	if (obj)
+	{
+		obj->SetPrivateData(WKPDID_D3DDebugObjectName, lstrlenA(name), name);
+	}
+}
+inline void d3dSetDebugName(ID3D12DeviceChild* obj, const char* name)
+{
+	if (obj)
+	{
+		obj->SetPrivateData(WKPDID_D3DDebugObjectName, lstrlenA(name), name);
+	}
+}
+
+inline std::wstring AnsiToWString(const std::string& str)
+{
+	WCHAR buffer[512];
+	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, buffer, 512);
+	return std::wstring(buffer);
+}
+
+/*
+#if defined(_DEBUG)
+#ifndef Assert
+#define Assert(x, description)                                  \
+{                                                               \
+static bool ignoreAssert = false;                           \
+if(!ignoreAssert && !(x))                                   \
+{                                                           \
+Debug::AssertResult result = Debug::ShowAssertDialog(   \
+(L#x), description, AnsiToWString(__FILE__), __LINE__); \
+if(result == Debug::AssertIgnore)                           \
+{                                                           \
+ignoreAssert = true;                                    \
+}                                                           \
+else if(result == Debug::AssertBreak)           \
+{                                                           \
+__debugbreak();                                         \
+}                                                           \
+}                                                           \
+}
+#endif
+#else
+#ifndef Assert
+#define Assert(x, description)
+#endif
+#endif
+*/
 
 class d3dUtil
 {
 public:
+
+	static bool IsKeyDown(int vkeyCode);
+
+	static std::string ToString(HRESULT hr);
 
 	static UINT CalcConstantBufferByteSize(UINT byteSize)
 	{
@@ -52,7 +115,8 @@ public:
 		return (byteSize + 255) & ~255;
 	}
 
-	// 创建 GPU 使用的 BUFFER
+	static Microsoft::WRL::ComPtr<ID3DBlob> LoadBinary(const std::wstring& filename);
+
 	static Microsoft::WRL::ComPtr<ID3D12Resource> CreateDefaultBuffer(
 		ID3D12Device* device,
 		ID3D12GraphicsCommandList* cmdList,
@@ -60,7 +124,6 @@ public:
 		UINT64 byteSize,
 		Microsoft::WRL::ComPtr<ID3D12Resource>& uploadBuffer);
 
-	// 编译 shader
 	static Microsoft::WRL::ComPtr<ID3DBlob> CompileShader(
 		const std::wstring& filename,
 		const D3D_SHADER_MACRO* defines,
@@ -68,7 +131,6 @@ public:
 		const std::string& target);
 };
 
-// DX异常检查
 class DxException
 {
 public:
@@ -82,13 +144,6 @@ public:
 	std::wstring Filename;
 	int LineNumber = -1;
 };
-
-inline std::wstring AnsiToWString(const std::string& str)
-{
-	WCHAR buffer[512];
-	MultiByteToWideChar(CP_ACP, 0, str.c_str(), -1, buffer, 512);
-	return std::wstring(buffer);
-}
 
 // Defines a subrange of geometry in a MeshGeometry.  This is for when multiple
 // geometries are stored in one vertex and index buffer.  It provides the offsets
@@ -105,7 +160,6 @@ struct SubmeshGeometry
 	DirectX::BoundingBox Bounds;
 };
 
-// Mesh Geometry 结构
 struct MeshGeometry
 {
 	// Give it a name so we can look it up by name.
@@ -159,6 +213,68 @@ struct MeshGeometry
 		VertexBufferUploader = nullptr;
 		IndexBufferUploader = nullptr;
 	}
+};
+
+struct Light
+{
+	DirectX::XMFLOAT3 Strength = { 0.5f, 0.5f, 0.5f };
+	float FalloffStart = 1.0f;                          // point/spot light only
+	DirectX::XMFLOAT3 Direction = { 0.0f, -1.0f, 0.0f };// directional/spot light only
+	float FalloffEnd = 10.0f;                           // point/spot light only
+	DirectX::XMFLOAT3 Position = { 0.0f, 0.0f, 0.0f };  // point/spot light only
+	float SpotPower = 64.0f;                            // spot light only
+};
+
+#define MaxLights 16
+
+struct MaterialConstants
+{
+	DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+	DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+	float Roughness = 0.25f;
+
+	// Used in texture mapping.
+	DirectX::XMFLOAT4X4 MatTransform = MathHelper::Identity4x4();
+};
+
+// Simple struct to represent a material for our demos.  A production 3D engine
+// would likely create a class hierarchy of Materials.
+struct Material
+{
+	// Unique material name for lookup.
+	std::string Name;
+
+	// Index into constant buffer corresponding to this material.
+	int MatCBIndex = -1;
+
+	// Index into SRV heap for diffuse texture.
+	int DiffuseSrvHeapIndex = -1;
+
+	// Index into SRV heap for normal texture.
+	int NormalSrvHeapIndex = -1;
+
+	// Dirty flag indicating the material has changed and we need to update the constant buffer.
+	// Because we have a material constant buffer for each FrameResource, we have to apply the
+	// update to each FrameResource.  Thus, when we modify a material we should set 
+	// NumFramesDirty = gNumFrameResources so that each frame resource gets the update.
+	int NumFramesDirty = gNumFrameResources;
+
+	// Material constant buffer data used for shading.
+	DirectX::XMFLOAT4 DiffuseAlbedo = { 1.0f, 1.0f, 1.0f, 1.0f };
+	DirectX::XMFLOAT3 FresnelR0 = { 0.01f, 0.01f, 0.01f };
+	float Roughness = .25f;
+	DirectX::XMFLOAT4X4 MatTransform = MathHelper::Identity4x4();
+};
+
+struct Texture
+{
+	// Unique material name for lookup.
+	std::string Name;
+
+	std::wstring Filename;
+
+	Microsoft::WRL::ComPtr<ID3D12Resource> Resource = nullptr;
+	Microsoft::WRL::ComPtr<ID3D12Resource> UploadHeap = nullptr;
 };
 
 #ifndef ThrowIfFailed

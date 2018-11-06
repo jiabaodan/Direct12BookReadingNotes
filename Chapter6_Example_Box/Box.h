@@ -1,6 +1,6 @@
 /*********************************************************************************
 *FileName:        Box.h
-*Author:          张尊庆
+*Author:          
 *Version:         1.0
 *Date:            2018/8/6
 *Description:     Box 应用类
@@ -20,6 +20,7 @@ struct Vertex
 {
 	XMFLOAT3 Pos;
 	XMFLOAT4 Color;
+	//XMCOLOR Color;
 };
 
 // Constant buffer 结构

@@ -1,6 +1,6 @@
 /*********************************************************************************
 *FileName:        Shapes.cpp
-*Author:          张尊庆
+*Author:           
 *Version:         1.0
 *Date:            2018/8/8
 *Description:     Shapes 测试应用类
@@ -62,7 +62,7 @@ void ShapesApp::Update(const GameTimer& gt)
 	UpdateCamera(gt);
 
 	// Cycle through the circular frame resource array.
-	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
+	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResourcesSelf;
 	mCurrFrameResource = mFrameResources[mCurrFrameResourceIndex].get();
 
 	// Has the GPU finished processing the commands of the current frame resource?
@@ -273,10 +273,10 @@ void ShapesApp::BuildDescriptorHeaps()
 
 	// Need a CBV descriptor for each object for each frame resource,
 	// +1 for the perPass CBV for each frame resource.
-	UINT numDescriptors = (objCount + 1) * gNumFrameResources;
+	UINT numDescriptors = (objCount + 1) * gNumFrameResourcesSelf;
 
 	// Save an offset to the start of the pass CBVs.  These are the last 3 descriptors.
-	mPassCbvOffset = objCount * gNumFrameResources;
+	mPassCbvOffset = objCount * gNumFrameResourcesSelf;
 
 	D3D12_DESCRIPTOR_HEAP_DESC cbvHeapDesc;
 	cbvHeapDesc.NumDescriptors = numDescriptors;
@@ -294,7 +294,7 @@ void ShapesApp::BuildConstantBufferViews()
 	UINT objCount = (UINT)mOpaqueRitems.size();
 
 	// Need a CBV descriptor for each object for each frame resource.
-	for (int frameIndex = 0; frameIndex < gNumFrameResources; ++frameIndex)
+	for (int frameIndex = 0; frameIndex < gNumFrameResourcesSelf; ++frameIndex)
 	{
 		auto objectCB = mFrameResources[frameIndex]->ObjectCB->Resource();
 		for (UINT i = 0; i < objCount; ++i)
@@ -320,7 +320,7 @@ void ShapesApp::BuildConstantBufferViews()
 	UINT passCBByteSize = d3dUtil::CalcConstantBufferByteSize(sizeof(PassConstants));
 
 	// Last three descriptors are the pass CBVs for each frame resource.
-	for (int frameIndex = 0; frameIndex < gNumFrameResources; ++frameIndex)
+	for (int frameIndex = 0; frameIndex < gNumFrameResourcesSelf; ++frameIndex)
 	{
 		auto passCB = mFrameResources[frameIndex]->PassCB->Resource();
 		D3D12_GPU_VIRTUAL_ADDRESS cbAddress = passCB->GetGPUVirtualAddress();
@@ -556,7 +556,7 @@ void ShapesApp::BuildPSOs()
 
 void ShapesApp::BuildFrameResources()
 {
-	for (int i = 0; i < gNumFrameResources; ++i)
+	for (int i = 0; i < gNumFrameResourcesSelf; ++i)
 	{
 		mFrameResources.push_back(std::make_unique<FrameResource>(md3dDevice.Get(),
 			1, (UINT)mAllRitems.size()));

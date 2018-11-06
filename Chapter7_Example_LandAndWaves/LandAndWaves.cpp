@@ -1,6 +1,6 @@
 /*********************************************************************************
 *FileName:        LandAndWaves.cpp
-*Author:          张尊庆
+*Author:           
 *Version:         1.0
 *Date:            2018/8/9
 *Description:     Land and Waves 应用类
@@ -64,7 +64,7 @@ void LandAndWavesApp::Update(const GameTimer& gt)
 	UpdateCamera(gt);
 
 	// Cycle through the circular frame resource array.
-	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResources;
+	mCurrFrameResourceIndex = (mCurrFrameResourceIndex + 1) % gNumFrameResourcesSelf;
 	mCurrFrameResource = mFrameResources[mCurrFrameResourceIndex].get();
 
 	// Has the GPU finished processing the commands of the current frame resource?
@@ -524,7 +524,7 @@ void LandAndWavesApp::BuildPSOs()
 
 void LandAndWavesApp::BuildFrameResources()
 {
-	for (int i = 0; i < gNumFrameResources; ++i)
+	for (int i = 0; i < gNumFrameResourcesSelf; ++i)
 	{
 		mFrameResources.push_back(std::make_unique<FrameResource>(md3dDevice.Get(),
 			1, (UINT)mAllRitems.size(), mWaves->VertexCount()));

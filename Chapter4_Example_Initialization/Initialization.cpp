@@ -1,6 +1,6 @@
 /*********************************************************************************
 *FileName:        Initialization.cpp
-*Author:          张尊庆
+*Author:           
 *Version:         1.0
 *Date:            2018/8/1
 *Description:     Initialization 应用类

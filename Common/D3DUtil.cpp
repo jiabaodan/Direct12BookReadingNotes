@@ -1,6 +1,6 @@
 /*********************************************************************************
 *FileName:        d3dUtil.h
-*Author:          张尊庆
+*Author:          
 *Version:         1.0
 *Date:            2018/8/1
 *Description:     d3d 封装的一些常用接口
@@ -8,6 +8,9 @@
 
 #include "D3DUtil.h"
 #include <comdef.h>
+#include <fstream>
+
+using Microsoft::WRL::ComPtr;
 
 DxException::DxException(HRESULT hr, const std::wstring& functionName, const std::wstring& filename, int lineNumber) :
 	ErrorCode(hr),
@@ -15,16 +18,28 @@ DxException::DxException(HRESULT hr, const std::wstring& functionName, const std
 	Filename(filename),
 	LineNumber(lineNumber)
 {
-
 }
 
-std::wstring DxException::ToString() const
+bool d3dUtil::IsKeyDown(int vkeyCode)
 {
-	// 获取异常描述文字
-	_com_error err(ErrorCode);
-	std::wstring msg = err.ErrorMessage();
+	return (GetAsyncKeyState(vkeyCode) & 0x8000) != 0;
+}
 
-	return FunctionName + L" failed in " + Filename + L"; line " + std::to_wstring(LineNumber) + L"; error: " + msg;
+ComPtr<ID3DBlob> d3dUtil::LoadBinary(const std::wstring& filename)
+{
+	std::ifstream fin(filename, std::ios::binary);
+
+	fin.seekg(0, std::ios_base::end);
+	std::ifstream::pos_type size = (int)fin.tellg();
+	fin.seekg(0, std::ios_base::beg);
+
+	ComPtr<ID3DBlob> blob;
+	ThrowIfFailed(D3DCreateBlob(size, blob.GetAddressOf()));
+
+	fin.read((char*)blob->GetBufferPointer(), size);
+	fin.close();
+
+	return blob;
 }
 
 Microsoft::WRL::ComPtr<ID3D12Resource> d3dUtil::CreateDefaultBuffer(
@@ -34,7 +49,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> d3dUtil::CreateDefaultBuffer(
 	UINT64 byteSize,
 	Microsoft::WRL::ComPtr<ID3D12Resource>& uploadBuffer)
 {
-	Microsoft::WRL::ComPtr<ID3D12Resource> defaultBuffer;
+	ComPtr<ID3D12Resource> defaultBuffer;
 
 	// Create the actual default buffer resource.
 	ThrowIfFailed(device->CreateCommittedResource(
@@ -54,6 +69,7 @@ Microsoft::WRL::ComPtr<ID3D12Resource> d3dUtil::CreateDefaultBuffer(
 		D3D12_RESOURCE_STATE_GENERIC_READ,
 		nullptr,
 		IID_PPV_ARGS(uploadBuffer.GetAddressOf())));
+
 
 	// Describe the data we want to copy into the default buffer.
 	D3D12_SUBRESOURCE_DATA subResourceData = {};
@@ -78,7 +94,11 @@ Microsoft::WRL::ComPtr<ID3D12Resource> d3dUtil::CreateDefaultBuffer(
 	return defaultBuffer;
 }
 
-Microsoft::WRL::ComPtr<ID3DBlob> d3dUtil::CompileShader(const std::wstring& filename, const D3D_SHADER_MACRO* defines, const std::string& entrypoint, const std::string& target)
+ComPtr<ID3DBlob> d3dUtil::CompileShader(
+	const std::wstring& filename,
+	const D3D_SHADER_MACRO* defines,
+	const std::string& entrypoint,
+	const std::string& target)
 {
 	UINT compileFlags = 0;
 #if defined(DEBUG) || defined(_DEBUG)  
@@ -87,8 +107,8 @@ Microsoft::WRL::ComPtr<ID3DBlob> d3dUtil::CompileShader(const std::wstring& file
 
 	HRESULT hr = S_OK;
 
-	Microsoft::WRL::ComPtr<ID3DBlob> byteCode = nullptr;
-	Microsoft::WRL::ComPtr<ID3DBlob> errors;
+	ComPtr<ID3DBlob> byteCode = nullptr;
+	ComPtr<ID3DBlob> errors;
 	hr = D3DCompileFromFile(filename.c_str(), defines, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		entrypoint.c_str(), target.c_str(), compileFlags, 0, &byteCode, &errors);
 
@@ -99,3 +119,14 @@ Microsoft::WRL::ComPtr<ID3DBlob> d3dUtil::CompileShader(const std::wstring& file
 
 	return byteCode;
 }
+
+std::wstring DxException::ToString()const
+{
+	// Get the string description of the error code.
+	_com_error err(ErrorCode);
+	std::wstring msg = err.ErrorMessage();
+
+	return FunctionName + L" failed in " + Filename + L"; line " + std::to_wstring(LineNumber) + L"; error: " + msg;
+}
+
+
